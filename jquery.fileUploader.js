@@ -6,13 +6,25 @@ https://github.com/newghost/script
 */
 (function($) {
 
+  $.fn.resetUploader = function() {
+    return $(this).each(function() {
+      var $file   = $(this)
+        , $input  = $file.parent().find("input.fileUploader")
+        , $button = $file.parent().find("button.fileUploader");
+
+      $input.val('');
+      $file.wrap('<form>').parent('form').trigger('reset');
+      $file.unwrap();
+    });
+  };
+
   $.fn.fileUploader = function(text) {
     var browserTxt = text || "Browser...";
 
     return $(this).each(function() {
       var $file = $(this)
         , $input    = $('<input type="text" readonly class="fileUploader" />')
-        , $button   = $('<button class="fileUploader">' + browserTxt + '</button>');
+        , $button   = $('<button class="fileUploader graybtn">' + browserTxt + '</button>');
 
       $file
         .before($input)
@@ -26,6 +38,12 @@ https://github.com/newghost/script
         e.preventDefault();
         $file.click();
       };
+
+      $input.keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $input.resetUploader();
+        }
+      });
 
       $input.click(triggerUploader);
       $button.click(triggerUploader);
