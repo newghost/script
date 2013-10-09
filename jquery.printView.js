@@ -18,9 +18,7 @@ Useage:
 
 			/* switch the CSS type */
 			if (media.toLowerCase().indexOf("print") > -1) {
-				$style.clone()
-					.attr({"media": "screen, projection"})
-					.appendTo($("head"));
+				$style.attr("media", media + ", screen, print")
 			} else {
 				keepScreen
 					? $style.attr("media", media + ", screen, print")
