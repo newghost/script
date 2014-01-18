@@ -44,7 +44,8 @@ var proxyHandler = function(proxyReq, proxyRes) {
     console.log(options);
 
     var req = http.request(options, function(res) {
-      //res.setEncoding('utf8');
+      //important: passing the encoding
+      proxyRes.setHeader('content-encoding', res.headers['content-encoding']);
       res.on('data', function (chunk) {
         proxyRes.write(chunk);
       });
